@@ -18,7 +18,7 @@ const Home = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get('http://localhost:5555/books');
+                const response = await axios.get('https://bookstore-api-pitm.onrender.com/books');
                 setBooks(response.data.books);
                 setLoading(false);
             } catch (error) {
