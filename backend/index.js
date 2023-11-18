@@ -2,42 +2,20 @@ import express from 'express';
 import {PORT, mongoDBURL} from './config.js';
 import mongoose from 'mongoose';
 import {Book} from './models/bookmodels.js';
+import bookRouter from './routes/booksRoute.js';
+import cors from 'cors';
+
 
 const app = express();
 app.use(express.json()); // to parse the incoming requests with JSON payloads
+app.use(cors()); // to allow cross-origin requests - middleware
 
 app.get("/", (req, res)=> {
     console.log(req);
     return res.status(350).send('welcome to mern stack');
 });   // getting resource from  server
 
-app.post("/books", async(req, res) => {
-    try{
-        if (
-            !req.body.title ||
-            !req.body.author ||
-            !req.body.publishYear
-        ){
-            return res.status(400).send({
-                message: 'Send all required fields: title, author, publishYear'
-            });
-        }
-        const newBook= new Book({
-            title: req.body.title,
-            author: req.body.author,
-            publishYear: req.body.publishYear,
-        });
-
-        const book= await Book.create(newBook);
-
-        return res.status(201).send({book});
-    }
-    catch(err){
-        console.log(err.message);
-        return res.status(500).send({message: err.message});
-    }
-});
-
+app.use("/books", bookRouter);
 
 mongoose
     .connect(mongoDBURL, {useNewUrlParser: true, useUnifiedTopology: true})
