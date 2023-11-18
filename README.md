@@ -1,3 +1,3 @@
 # BookStore
 
-Built using** MERN, Vite and Tailwind CSS**
+Built using MERN, Vite & Tailwind CSS
